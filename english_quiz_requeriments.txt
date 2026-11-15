@@ -1,0 +1,188 @@
+English quiz app
+---
+
+# 1. Visión General del Producto Actualizada
+
+Aplicación web/móvil de tipo *quiz* interactivo para practicar inglés gamificado mediante una ruleta. Combina ejercicios automatizados con validación de sistema (**Vocabulary, Trivia, Spelling**) y ejercicios asistidos por un **encargado del juego** (**Tongue Twister**). El usuario selecciona una dificultad, recorre las 4 pantallas especializadas y acumula puntos según su desempeño directo o la nota del facilitador, culminando en un resumen final detallado.
+
+---
+
+## 2. Flujo de Usuario y Comportamiento por Pantalla (Actualizado)
+
+### Pantalla 1: Inicio y Selección de Dificultad
+
+* **Elementos visuales:** Título principal y tres (3) opciones seleccionables: **Easy**, **Medium**, **Hard**.
+* **Comportamiento:** Guarda la dificultad seleccionada para la sesión y redirige a la Pantalla 2 (Ruleta).
+
+### Pantalla 2: Ruleta de Categorías (Hub de la Partida)
+
+* **Elementos visuales:** Ruleta con 4 secciones (**Vocabulary**, **Trivia**, **Tongue Twister**, **Spelling**) y botón **"Girar"**.
+* **Comportamiento y Reglas de Negocio:**
+* Al girar, selecciona de forma aleatoria una categoría que **no esté bloqueada**.
+* Tras resolver cualquier ejercicio, **el flujo siempre regresa a esta pantalla**.
+* La categoría recién jugada se muestra **bloqueada** (inactiva) en la ruleta.
+* Cuando las 4 categorías estén bloqueadas, el flujo avanza automáticamente a la **Pantalla 4 (Resumen)**.
+
+
+
+---
+
+### Pantallas de Ejercicio (Pantallas 3.a a 3.d)
+
+#### Pantalla 3.a: Vocabulary
+
+* **HUD:** Oración incompleta con un espacio en blanco y tres (3) opciones seleccionables.
+* **Evaluación e Intentos:**
+* **Intento 1 - Acierto:** **10 puntos**. Bloquea categoría y regresa a la ruleta.
+* **Intento 1 - Fallo:** Permite un **segundo intento** con las opciones restantes.
+* **Intento 2 - Acierto:** **5 puntos**. Regresa a la ruleta.
+* **Intento 2 - Fallo:** **0 puntos**. Muestra aviso de fallo de intentos y regresa a la ruleta.
+
+
+
+#### Pantalla 3.b: Trivia
+
+* **HUD:** Oración/pregunta con cuatro (4) opciones seleccionables.
+* **Evaluación e Intentos:**
+* **Intento 1 - Acierto:** **10 puntos**. Regresa a la ruleta.
+* **Intento 1 - Fallo:** Permite un **segundo intento** con las opciones restantes.
+* **Intento 2 - Acierto:** **5 puntos**. Regresa a la ruleta.
+* **Intento 2 - Fallo:** **0 puntos**. Muestra aviso de fallo de intentos y regresa a la ruleta.
+
+
+
+#### Pantalla 3.c: Tongue Twister (Evaluado por el Encargado)
+
+* **HUD:** Muestra la oración del trabalenguas y un **botón de timer**.
+* **Comportamiento:**
+* El usuario lee en voz alta mientras corre el tiempo.
+* Al finalizar el timer, se despliegan los tres botones de control exclusivo para el **encargado del juego**:
+* **Perfecto:** **10 puntos**.
+* **Buen intento:** **5 puntos**.
+* **Incorrecto:** **0 puntos**.
+
+
+* El encargado califica según su escucha y la app regresa a la ruleta.
+
+
+
+#### Pantalla 3.d: Spelling (**Evaluado Automáticamente por el Sistema**)
+
+* **HUD:** Muestra una imagen que el usuario debe detallar escribiendo texto en un campo libre.
+* **Comportamiento y Reglas de Negocio:**
+* El usuario escribe su descripción y presiona enviar.
+* **El sistema compara de forma automática** el texto ingresado con la configuración interna (porcentaje de similitud/coincidencia):
+* **100% de acierto:** **10 puntos**.
+* **Mayor al 40% de acierto (> 40%):** **5 puntos**.
+* **Menor al 40% de acierto (< 40%):** **0 puntos**.
+
+
+* El sistema asigna el puntaje de manera autónoma (el encargado no interviene) y regresa a la ruleta.
+
+
+
+---
+
+### Pantalla 4: Resumen Final de Resultados
+
+* **Elementos visuales:** Puntaje total acumulado (máximo 40 puntos) y listado en **formato amplio** con las 4 categorías.
+* **Comportamiento:** Muestra el detalle del reto, la respuesta/texto ingresado y el puntaje obtenido por categoría. Incluye el botón **"Jugar de nuevo"** para reiniciar.
+
+---
+
+## 3. Historias de Usuario Actualizadas (Backlog)
+
+| ID | Historia de Usuario | Criterios de Aceptación (Given / When / Then) |
+| --- | --- | --- |
+| **HU-01** | **Como** jugador, **quiero** elegir la dificultad al inicio **para** adaptar el reto. | **Dado** que estoy en la pantalla principal, **cuando** elijo *Easy/Medium/Hard*, **entonces** paso a la ruleta con ese filtro de dificultad. |
+| **HU-02** | **Como** jugador, **quiero** girar la ruleta para elegir categoría y volver a ella tras terminar. | **Dado** que hay categorías pendientes, **cuando** giro y resuelvo un ejercicio, **entonces** la categoría se bloquea y regreso obligatoriamente a la ruleta. |
+| **HU-03** | **Como** jugador, **quiero** tener dos oportunidades en *Vocabulary* y *Trivia* **para** sumar 10 o 5 puntos según mi acierto. | **Dado** que estoy en 3.a o 3.b, **cuando** fallo el primer intento, **entonces** tengo un segundo intento (5 pts si acierto, 0 pts y aviso si vuelvo a fallar). |
+| **HU-04** | **Como** encargado del juego, **quiero** usar el timer y calificar el *Tongue Twister* **para** puntuar la pronunciación. | **Dado** que el usuario leyó el trabalenguas, **cuando** selecciono *Perfecto*, *Buen intento* o *Incorrecto*, **entonces** se otorgan 10, 5 o 0 puntos. |
+| **HU-05** | **Como** jugador, **quiero** que el sistema evalúe automáticamente mi texto en *Spelling* **para** recibir mis puntos sin intervención manual. | **Dado** que envié la descripción de la imagen, **cuando** el sistema calcula el porcentaje de coincidencia, **entonces** asigna 10 pts (100%), 5 pts (>40%) o 0 pts (<40%) automáticamente. |
+| **HU-06** | **Como** jugador, **quiero** ver un resumen amplio al terminar las 4 categorías **para** revisar mi desempeño detallado. | **Dado** que completé los 4 apartados, **cuando** finaliza la última categoría, **entonces** veo la pantalla de resumen con puntajes y respuestas. |
+
+---
+
+## 4. Requerimientos Técnicos: Estructura Base de Datos Locales
+
+Dado que aún no se cuenta con los archivos finales y se busca **la estructura más básica posible**, se propone organizar la fuente local mediante un archivo principal (o por categoría) con formato JSON sencillo.
+
+### Estructura Mínima Sugerida (`questions.json`)
+
+```json
+{
+  "easy": {
+    "vocabulary": [
+      {
+        "id": "v1",
+        "sentence": "She ___ to the store yesterday.",
+        "options": ["go", "goes", "went"],
+        "correct": "went"
+      }
+    ],
+    "trivia": [
+      {
+        "id": "t1",
+        "question": "What is the capital of the United States?",
+        "options": ["New York", "Washington D.C.", "Los Angeles", "Chicago"],
+        "correct": "Washington D.C."
+      }
+    ],
+    "tongue_twister": [
+      {
+        "id": "tt1",
+        "text": "Red lorry, yellow lorry."
+      }
+    ],
+    "spelling": [
+      {
+        "id": "s1",
+        "image_url": "assets/images/cat.png",
+        "expected_text": "a black cat sitting on the mat"
+      }
+    ]
+  }
+}
+
+```
+
+* **Nota de implementación:** Al iniciar la partida con la dificultad elegida (ej. `easy`), el sistema toma una pregunta aleatoria de cada lista para armar la sesión de juego de las 4 pantallas.
+
+
+## 5. Especificaciones Técnicas y Arquitectura de Ejecución Local
+
+### 5.1. Stack Tecnológico y Modelo de Despliegue
+
+* **Tecnologías base:** HTML5, CSS3 y JavaScript Vanilla (ES6+).
+* **Modelo de ejecución:** Aplicación cliente liviana (*Single Page Application* basada en manipulación de DOM y visibilidad de contenedores) diseñada para correr de forma local en una **sola máquina física** sin dependencia de servidores web remotos, bases de datos externas ni conectividad constante a internet.
+* **Perfil de usuario facilitador:** Arquitectura orientada a "cero configuración" (*zero-config*), permitiendo que un encargado sin conocimientos técnicos de servidores, puertos o redes pueda iniciar la aplicación haciendo doble clic en el archivo principal (`index.html`).
+
+### 5.2. Estructura de Directorios del Proyecto
+
+Para garantizar la portabilidad (ej. ejecución desde una unidad USB o carpeta local sin bloqueos de seguridad del navegador como políticas CORS), los recursos estáticos y los datos se organizarán de la siguiente manera:
+
+```text
+/english-quiz-app/
+│
+├── index.html         # Punto de entrada único (contiene las vistas de todas las pantallas)
+├── style.css          # Estilos globales, diseño responsive y estilos para la ruleta
+├── script.js          # Máquina de estados, puntajes, intentos, temporizador y transiciones
+├── questions.js       # Base de datos local encapsulada en formato de objeto JavaScript
+└── assets/
+    └── images/        # Repositorio local de imágenes para la categoría Spelling
+
+```
+
+### 5.3. Gestión de Datos Locales (Sin Backend)
+
+* **Encapsulamiento de datos:** Las preguntas, oraciones y rutas de imágenes por dificultad (*Easy*, *Medium*, *Hard*) se almacenarán en el archivo `questions.js` exportando una estructura de datos global. Esto evita el uso de peticiones HTTP asíncronas (`fetch`) restringidas por los navegadores al abrir archivos locales mediante el protocolo `file://`.
+
+### 5.4. Automatización del Módulo de Evaluación (Spelling - Pantalla 3.d)
+
+* El motor de evaluación de la categoría **Spelling** operará de forma autónoma mediante un script interno en JavaScript puro.
+* **Algoritmo de coincidencia:** El sistema procesará el texto ingresado por el usuario y lo comparará contra la cadena de referencia (*expected text*) mediante normalización de cadenas (eliminación de mayúsculas, espacios excedentes y puntuación) y cálculo de similitud léxica por coincidencia de tokens (*Word Token Similarity*), aplicando las reglas de negocio establecidas:
+* **100% de coincidencia:** Asignación automática de **10 puntos**.
+* **Mayor al 40% (> 40%) de coincidencia:** Asignación automática de **5 puntos**.
+* **Menor al 40% (< 40%) de coincidencia:** Asignación automática de **0 puntos**.
+
+---

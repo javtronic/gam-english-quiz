@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+
+    <!-- ============ Screen 1: Home / difficulty ============ -->
+    <section id="screen-home" class="screen active" aria-labelledby="home-title">
+      <div class="card hero">
+        <div class="logo" aria-hidden="true">🎡</div>
+        <h1 id="home-title">English Quiz</h1>
+        <p class="subtitle">Spin the wheel, complete 4 challenges and score up to 40 points.</p>
+        <h2 class="section-title">Choose your level</h2>
+        <div class="difficulty-list">
+          <button class="difficulty-btn diff-easy" data-difficulty="easy">
+            <span class="diff-name">Easy</span>
+            <span class="diff-desc">Short sentences and everyday words</span>
+          </button>
+          <button class="difficulty-btn diff-medium" data-difficulty="medium">
+            <span class="diff-name">Medium</span>
+            <span class="diff-desc">Common grammar and general knowledge</span>
+          </button>
+          <button class="difficulty-btn diff-hard" data-difficulty="hard">
+            <span class="diff-name">Hard</span>
+            <span class="diff-desc">Advanced structures and tricky sounds</span>
+          </button>
+        </div>
+        <p id="data-error" class="error" hidden></p>
+      </div>
+    </section>
+
+    <!-- ============ Screen 2: Wheel (hub) ============ -->
+    <section id="screen-wheel" class="screen" aria-labelledby="wheel-title">
+      <header class="topbar">
+        <span class="badge" data-role="difficulty"></span>
+        <span class="score">Score <strong data-role="score">0</strong> / 40</span>
+      </header>
+      <div class="card center">
+        <h2 id="wheel-title">Spin the wheel!</h2>
+        <p class="muted" id="wheel-status"></p>
+        <div class="wheel-wrap">
+          <div class="wheel-pointer" aria-hidden="true"></div>
+          <div id="wheel" class="wheel" role="img" aria-label="Category wheel"></div>
+          <div class="wheel-hub" aria-hidden="true"></div>
+        </div>
+        <p id="wheel-result" class="wheel-result" aria-live="polite"></p>
+        <button id="spin-btn" class="btn btn-primary btn-lg">Spin</button>
+      </div>
+    </section>
+
+    <!-- ============ Screen 3.a: Vocabulary ============ -->
+    <section id="screen-vocabulary" class="screen" data-category="vocabulary">
+      <header class="topbar">
+        <span class="cat-tag cat-vocabulary">Vocabulary</span>
+        <span class="score">Score <strong data-role="score">0</strong> / 40</span>
+      </header>
+      <div class="card">
+        <p class="instruction">Choose the word that completes the sentence.</p>
+        <p class="prompt" data-role="prompt"></p>
+        <p class="attempts" data-role="attempts"></p>
+        <div class="options" data-role="options"></div>
+        <div class="feedback" data-role="feedback" role="status" hidden></div>
+        <button class="btn btn-primary continue-btn" data-role="continue" hidden>Back to the wheel</button>
+      </div>
+    </section>
+
+    <!-- ============ Screen 3.b: Trivia ============ -->
+    <section id="screen-trivia" class="screen" data-category="trivia">
+      <header class="topbar">
+        <span class="cat-tag cat-trivia">Trivia</span>
+        <span class="score">Score <strong data-role="score">0</strong> / 40</span>
+      </header>
+      <div class="card">
+        <p class="instruction">Choose the correct answer.</p>
+        <p class="prompt" data-role="prompt"></p>
+        <p class="attempts" data-role="attempts"></p>
+        <div class="options options-grid" data-role="options"></div>
+        <div class="feedback" data-role="feedback" role="status" hidden></div>
+        <button class="btn btn-primary continue-btn" data-role="continue" hidden>Back to the wheel</button>
+      </div>
+    </section>
+
+    <!-- ============ Screen 3.c: Tongue Twister ============ -->
+    <section id="screen-tongue_twister" class="screen" data-category="tongue_twister">
+      <header class="topbar">
+        <span class="cat-tag cat-tongue_twister">Tongue Twister</span>
+        <span class="score">Score <strong data-role="score">0</strong> / 40</span>
+      </header>
+      <div class="card">
+        <p class="instruction">Read the tongue twister out loud before the time runs out.</p>
+        <blockquote class="prompt twister" data-role="prompt"></blockquote>
+        <div class="timer">
+          <div class="timer-display" data-role="timer-display" aria-live="polite">0</div>
+          <div class="timer-bar"><div class="timer-fill" data-role="timer-fill"></div></div>
+        </div>
+        <button class="btn btn-primary btn-lg" data-role="timer-btn">Start timer</button>
+        <div class="facilitator" data-role="grading" hidden>
+          <p class="facilitator-label">Facilitator only &mdash; rate the reading</p>
+          <div class="grade-buttons">
+            <button class="btn grade grade-perfect" data-points="10" data-label="Perfect">Perfect <small>10 pts</small></button>
+            <button class="btn grade grade-good" data-points="5" data-label="Good try">Good try <small>5 pts</small></button>
+            <button class="btn grade grade-wrong" data-points="0" data-label="Incorrect">Incorrect <small>0 pts</small></button>
+          </div>
+        </div>
+        <div class="feedback" data-role="feedback" role="status" hidden></div>
+        <button class="btn btn-primary continue-btn" data-role="continue" hidden>Back to the wheel</button>
+      </div>
+    </section>
+
+    <!-- ============ Screen 3.d: Spelling ============ -->
+    <section id="screen-spelling" class="screen" data-category="spelling">
+      <header class="topbar">
+        <span class="cat-tag cat-spelling">Spelling</span>
+        <span class="score">Score <strong data-role="score">0</strong> / 40</span>
+      </header>
+      <div class="card">
+        <p class="instruction">Describe the image in English. Write what you see.</p>
+        <figure class="spelling-figure">
+          <img data-role="image" alt="Image to describe">
+        </figure>
+        <p class="muted slot-hint" data-role="slot-hint"></p>
+        <div class="word-slots" data-role="slots" role="group" aria-label="Your description, one word per box"></div>
+        <button class="btn btn-primary btn-lg" data-role="submit" disabled>Submit</button>
+        <div class="feedback" data-role="feedback" role="status" hidden></div>
+        <button class="btn btn-primary continue-btn" data-role="continue" hidden>Back to the wheel</button>
+      </div>
+    </section>
+
+    <!-- ============ Screen 4: Summary ============ -->
+    <section id="screen-summary" class="screen" aria-labelledby="summary-title">
+      <div class="card hero">
+        <h1 id="summary-title">Final results</h1>
+        <p class="muted" data-role="difficulty-text"></p>
+        <div class="total"><span id="summary-total">0</span><span class="total-max">/ 40</span></div>
+        <p id="summary-message" class="subtitle"></p>
+      </div>
+      <div id="summary-list" class="summary-list"></div>
+      <div class="center">
+        <button id="play-again-btn" class="btn btn-primary btn-lg">Play again</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Classic scripts (no modules) so the app runs from file:// -->
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
